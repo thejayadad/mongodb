@@ -50,10 +50,7 @@ export async function deleteColumn(formData: FormData) {
     throw new Error("Column id is required");
   }
 
-  // Remove the column
   await Column.findByIdAndDelete(id);
-
-  // Clean up tasks belonging to this column
   await Task.deleteMany({ column: id });
 
   revalidatePath("/");
@@ -74,6 +71,37 @@ export async function createTask(formData: FormData) {
     title,
     column: columnId,
   });
+
+  revalidatePath("/");
+}
+
+// ✅ UPDATE TASK (title only – simple)
+export async function updateTask(formData: FormData) {
+  await dbConnect();
+
+  const id = formData.get("id") as string;
+  const title = (formData.get("title") as string)?.trim();
+
+  if (!id || !title) {
+    throw new Error("Invalid task update input");
+  }
+
+  await Task.findByIdAndUpdate(id, { title });
+
+  revalidatePath("/");
+}
+
+// ✅ DELETE TASK
+export async function deleteTask(formData: FormData) {
+  await dbConnect();
+
+  const id = formData.get("id") as string;
+
+  if (!id) {
+    throw new Error("Task id is required");
+  }
+
+  await Task.findByIdAndDelete(id);
 
   revalidatePath("/");
 }
