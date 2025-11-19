@@ -1,22 +1,25 @@
 
 import React from 'react'
 import { Sidebar } from '../_components/sidebar/sidebar';
+import Header from '../_components/header/header';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 
-const layout = ({
+export default async function Layout ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => {
+}>) {
+  const session = await auth.api.getSession({ headers: await headers()})
+  const user = session?.user
   return (
     <div
     style={{backgroundColor: '#fafafa'}}
-    className='h-full'>
+    className='h-full bg-[#f5f5f5]'>
        <div className='flex h-full'>
-        <Sidebar />
+        {user && <Sidebar />}
         <div className='flex flex-1 flex-col'>
-          <header>
-            Header
-          </header>
+          <Header />
           <main className='flex-1 p-6 overflow-auto'>
              {children}
           </main>
@@ -26,4 +29,3 @@ const layout = ({
   )
 }
 
-export default layout

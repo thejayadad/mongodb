@@ -4,6 +4,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { FcGoogle } from "react-icons/fc";
+import { FiLogOut } from "react-icons/fi";
 
 export function SignInWithGoogleButton() {
   const [loading, setLoading] = useState(false);
@@ -19,16 +21,39 @@ export function SignInWithGoogleButton() {
       setLoading(false);
     }
   };
-
   return (
     <button
-      onClick={onLogin}
-      disabled={loading}
-      className="bg-blue-600 hover:bg-blue-700 text-neutral-300 px-4 py-2 rounded-lg font-medium disabled:opacity-50"
-    >
-      {loading ? "Redirecting..." : "Log in with Google"}
-    </button>
-  );
+  onClick={onLogin}
+  disabled={loading}
+  style={{
+    backgroundColor: "#FFFFFF",
+    color: "#111111",
+    border: "1px solid #D6D6D6",
+    padding: "8px 12px",
+    borderRadius: "8px",
+    fontSize: "12px",
+    fontWeight: 500,
+    cursor: loading ? "not-allowed" : "pointer",
+    opacity: loading ? 0.6 : 1,
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    transition: "all 0.2s ease",
+  }}
+  onMouseEnter={(e) => {
+    if (!loading) e.currentTarget.style.backgroundColor = "#F3F3F3";
+  }}
+  onMouseLeave={(e) => {
+    if (!loading) e.currentTarget.style.backgroundColor = "#FFFFFF";
+  }}
+>
+  <FcGoogle size={20} />
+
+  {loading ? "Redirecting..." : "Log in with Google"}
+</button>
+  )
+
+  
 }
 
 export function SignOutButton() {
@@ -56,8 +81,30 @@ export function SignOutButton() {
     <button
       onClick={onLogout}
       disabled={loading}
-      className="bg-red-600 hover:bg-red-700 text-neutral-600 px-3 py-2 rounded-lg font-medium disabled:opacity-50"
+      style={{
+        backgroundColor: "#FFFFFF",
+        color: "#111111",
+        border: "1px solid #D6D6D6",
+        padding: "8px 12px",
+        borderRadius: "8px",
+        fontSize: "12px",
+        fontWeight: 500,
+        cursor: loading ? "not-allowed" : "pointer",
+        opacity: loading ? 0.6 : 1,
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        transition: "all 0.2s ease",
+      }}
+      onMouseEnter={(e) => {
+        if (!loading) e.currentTarget.style.backgroundColor = "#F3F3F3";
+      }}
+      onMouseLeave={(e) => {
+        if (!loading) e.currentTarget.style.backgroundColor = "#FFFFFF";
+      }}
     >
+      <FiLogOut size={18} />
+
       {loading ? "Signing out..." : "Log out"}
     </button>
   );
