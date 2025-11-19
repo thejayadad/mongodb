@@ -14,6 +14,7 @@ import {
   FiChevronRight,
   FiBell,
 } from "react-icons/fi";
+import Logo from "../header/logo";
 
 type NavItem = {
   href: string;
@@ -40,16 +41,8 @@ export function Sidebar() {
       {/* Top brand */}
       <div className="flex items-center justify-between px-4 py-4 border-b border-neutral-100">
         <div className="flex items-center gap-2 overflow-hidden">
-          <div className="h-8 w-8 rounded-2xl bg-black flex items-center justify-center text-white font-bold text-sm">
-            T
-          </div>
-          <span
-            className={`font-semibold text-sm text-neutral-900 transition-opacity duration-150 ${
-              expanded ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
-          >
-            ToDo Board
-          </span>
+          <Logo />
+      
         </div>
 
         {expanded && (
