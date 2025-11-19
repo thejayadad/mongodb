@@ -8,8 +8,21 @@ import {
   updateTask,
   deleteTask,
 } from "@/lib/column-action";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import {
+  SignInWithGoogleButton,
+  SignOutButton,
+} from "./_components/google-btn";
 
 export default async function Home() {
+  // Get the Better Auth session
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  const user = session?.user;
+
   const { columns, tasks } = await getBoard();
 
   function tasksForColumn(columnId: string) {
@@ -18,7 +31,24 @@ export default async function Home() {
 
   return (
     <div className="max-w-4xl mx-auto py-10 space-y-8">
-      <h1 className="text-2xl font-bold">Board</h1>
+      {/* AUTH HEADER */}
+      <header className="flex items-center justify-between mb-4">
+        <h1 className="text-2xl font-bold">Board</h1>
+        hiii
+        {user ? (
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-gray-600">
+              Logged in as{" "}
+              <span className="font-medium">{user.email}</span>
+            </span>
+            <SignOutButton />
+          </div>
+        ) : (
+          <div>
+            <SignInWithGoogleButton />
+          </div>
+        )}
+      </header>
 
       {/* CREATE COLUMN */}
       <section className="p-4 border rounded space-y-3">
@@ -93,7 +123,7 @@ export default async function Home() {
               </button>
             </form>
 
-            {/* ✅ TASK LIST WITH UPDATE + DELETE */}
+            {/* TASK LIST WITH UPDATE + DELETE */}
             <div className="space-y-2">
               {tasksForColumn(col._id).map((task: any) => (
                 <div
