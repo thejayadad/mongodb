@@ -5,6 +5,8 @@ import {
   getBoard,
   updateColumn,
   deleteColumn,
+  updateTask,
+  deleteTask,
 } from "@/lib/column-action";
 
 export default async function Home() {
@@ -48,7 +50,7 @@ export default async function Home() {
       <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {columns.map((col: any) => (
           <div key={col._id} className="border rounded p-3 space-y-3">
-            {/* HEADER + DELETE BUTTON */}
+            {/* HEADER + DELETE COLUMN */}
             <div className="flex items-center justify-between">
               <h2 className="font-semibold text-sm">{col.title}</h2>
 
@@ -63,7 +65,7 @@ export default async function Home() {
               </form>
             </div>
 
-            {/* UPDATE COLUMN FORM */}
+            {/* UPDATE COLUMN */}
             <form action={updateColumn} className="space-y-2">
               <input type="hidden" name="id" value={col._id} />
 
@@ -91,14 +93,40 @@ export default async function Home() {
               </button>
             </form>
 
-            {/* TASK LIST */}
-            <div className="space-y-1">
+            {/* ✅ TASK LIST WITH UPDATE + DELETE */}
+            <div className="space-y-2">
               {tasksForColumn(col._id).map((task: any) => (
                 <div
                   key={task._id}
-                  className="border rounded px-2 py-1 text-sm bg-gray-50"
+                  className="border rounded p-2 bg-gray-50 space-y-1"
                 >
-                  {task.title}
+                  {/* UPDATE TASK */}
+                  <form action={updateTask} className="flex gap-2">
+                    <input type="hidden" name="id" value={task._id} />
+                    <input
+                      name="title"
+                      defaultValue={task.title}
+                      className="border px-2 py-1 rounded text-xs flex-1"
+                      required
+                    />
+                    <button
+                      type="submit"
+                      className="text-xs bg-black text-white px-2 py-1 rounded"
+                    >
+                      Save
+                    </button>
+                  </form>
+
+                  {/* DELETE TASK */}
+                  <form action={deleteTask} className="flex justify-end">
+                    <input type="hidden" name="id" value={task._id} />
+                    <button
+                      type="submit"
+                      className="text-[11px] text-red-600 underline"
+                    >
+                      Delete
+                    </button>
+                  </form>
                 </div>
               ))}
 
