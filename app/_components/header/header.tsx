@@ -14,8 +14,13 @@ export default async function Header(){
             style={{maxWidth: '1400px', margin: '0 auto'}}
             className="px-4 flex items-center gap-2 w-full" >
               { user ?  (
-                <div className='flex items-center w-full justify-end'>
-                    <SignOutButton />
+                <div className='flex items-center w-full justify-between'>
+                    <div
+                    style={{color: '#111111', fontSize: '14px', fontWeight: 600}}
+                    >
+                  {user?.email}
+                    
+                  </div>                    <SignOutButton />
                 </div>
               ): (
                 <div className='flex items-center justify-between w-full'>
